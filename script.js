@@ -15,7 +15,7 @@ const divSetPlayers = document.getElementById("players")
 const btnSetPlayers = document.getElementsByTagName('button')[0];
 const txtPlayer1 = document.getElementById("txtPlayer1");
 const txtPlayer2 = document.getElementById("txtPlayer2");
-const divGame = document.getElementsByTagName("div")[2];
+const divGame = document.getElementsByTagName("div")[3];
 divGame.setAttribute('style', 'display: none');
 btnSetPlayers.addEventListener('click', setPlayers);
 let player1 = "";
@@ -90,7 +90,6 @@ table.addEventListener('click', makeMove)
 function makeMove(event) {
   if (isReady) {
     let column = event.path[0].attributes[0].value;
-    let row = event.path[0].attributes[1].value;
     updateGameState(column, gameState.players[currentPlayer]);
     updateVisualBoard(column);
     playSoundFX("drop_1.wav")
@@ -137,7 +136,7 @@ function updateGameState(column, player) {
 }
 
 
-function checkForWin(event) {
+function checkForWin() {
   let idx = 0
   while (idx < 7) {
     let verticalArray = gameState.board[idx];

@@ -18,13 +18,17 @@ td {
     border-radius: 100%;
 }
 
-/* width: 150px;
-    height: 150px;
-    background-color: #fff;
+#num_players {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
 
-    box-shadow: 120px 80px 40px 20px #0ff; */
-    /* in order: x offset, y offset, blur size, spread size, color */
-    /* blur size and spread size are optional (they default to 0) */
+.radio_label {
+    
+    color: white;
+}
 
 #p1turn, #p2turn {
     width: 25px;
