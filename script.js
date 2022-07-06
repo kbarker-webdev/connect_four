@@ -30,7 +30,6 @@ function playSoundFX(sound) {
 }
 
 function setPlayers(event) {
-  playSoundFX("start_2.wav")
   if (event.target.textContent === "NEW GAME") {
     location.reload();
   } else {
@@ -46,11 +45,25 @@ function setPlayers(event) {
       p1.innerText = player1
       p2.innerText = player2
       drawBoard();
+      setRandomPlayer();
       isReady = true;
-      p2Lite.style.visibility = "hidden";
-      p1Lite.style.visibility = "visible";
       divGame.setAttribute('style', 'display: flex');
     }
+  }
+}
+
+function setRandomPlayer() {
+  currentPlayer = Math.floor(Math.random() * 2);
+  console.log(currentPlayer);
+  switch(currentPlayer){
+    case 0:
+      p1Lite.style.visibility = "visible";
+      p2Lite.style.visibility = "hidden";
+      break;
+    case 1:
+      p1Lite.style.visibility = "hidden";
+      p2Lite.style.visibility = "visible";
+      break;
   }
 }
 
@@ -86,107 +99,17 @@ function makeMove(event) {
   }
 }
 
-async function setColor(obj, color) {
-  if (obj === undefined || obj === null) {
-    console.log("setColor:", obj);
-  } else {
-    obj[0].className = color
-  }
-}
-
-function eraseColor(obj) {
-  if (obj === undefined || obj === null) {
-    console.log("eraeseColor:", obj);
-    //obj.className = "empty"
-  } else {
-    obj[0].className = "empty"
-  }
-}
 
 
-const delayLoop = (column) => {
-  let columnGS = gameState.board[column];
-  let row = 5;
-  if (columnGS != null) {
-  for (x=0;x<=columnGS.length;x++) {
-    let currentTD = document.querySelectorAll('[column="' + column + '"][row="' + row + '"]');
-    console.log(currentTD)
-    //console.log(currentTD[row])
-    setColor(currentTD, gameState.players[currentPlayer])
-    // if (row > columnGS.length) {
-    //   //setTimeout(() => {eraseColor(currentTD[x])}, i * delay);
-    //   row--;
-    // }
-    
-  }
-}
-}
-
-async function dropCoin(columnGS) {
-//   //countDown = 5;
-//   let count = 0;
-//   //console.log(columnGS.length)
-//   columnGS.forEach(
-//     setColor(curTD, gameState.players[currentPlayer])
-//     setTimeout(() => {
-
-//     }, 150)
-//   )
-//   columnGS.map((curTD) => {
-
-      
-      
-//       let myPromise = new Promise(function(resolve) {
-//           setTimeout(resolve, 150).then(eraseColor(curTD))
-//       });
-//     }
-
-//     //countDown--;
-// }
-}
-
-async function updateVisualBoard(column){
-  //let columnGS = gameState.board[column]; //.length === number of peices in column
-  delayLoop(column)
-  //await dropCoin(columnGS);
-}
-
-function updateVisualBoard2(column){
+function updateVisualBoard(column){
   let columnGS = gameState.board[column];
   let r = 5;
   for (i = 0; i < columnGS.length; i++) {
     let currentTD = document.querySelectorAll('[column="' + column + '"][row="' + r + '"]');
-    //  for (x = 0; x < r; x++) {
-    //    let tempTD = document.querySelectorAll('[column="' + column + '"][row="' + x + '"]');
-    //   //  tempTD[0].className = columnGS[i];
-    //   //  setTimeout(setColor, x*150, tempTD[0], columnGS[i])
-    //   //  setTimeout(eraseColor, 150 + (x*150), tempTD[0])
-    //  }
     currentTD[0].className = columnGS[i];
-    //console.dir(currentTD)
     r--;
   }
 }
-
-
-
-  // let columnGS = gameState.board[column];
-  // console.log(columnGS.length)
-  // let r = 5;
-  // for (i = 0; i < columnGS.length; i++) {
-  //   let currentTD = document.querySelectorAll('[column="' + column + '"][row="' + r + '"]');
-  //   //console.dir(currentTD)
-  //   for (x = 0; x < r; x++) {
-  //     let tempTD = document.querySelectorAll('[column="' + column + '"][row="' + x + '"]');
-  //     dropCoin(x, i, tempTD[0].className)
-  //     tempTD[0].className = columnGS[i];
-  //     await dropCoin(x, i);
-  //     r--;
-  //   }
-    
-  //   currentTD[0].className = columnGS[i];
-  // }
-  
 
 
 let p1Lite = document.getElementById("p1turn");
