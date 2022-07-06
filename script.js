@@ -1,14 +1,3 @@
-// What is the starting state?
-//Empty gameboard with 7 columns and 6 rows.
-
-// How do I display the state of the game to the user?
-//In a grid help by a multi-deminsional array.
-
-// What controls/interface to I make available to the user?
-//Clicking on a specific column and dropping the game peice to the first available row in thart column.
-
-// How does each interaction update the state?
-
 const board = [];
 
 const gameState = {
@@ -35,7 +24,13 @@ let isReady = false;
 let currentPlayer = 0;
 let gameWinner = "";
 
+function playSoundFX(sound) {
+  let sfx = new Audio("./sfx/" + sound);
+    sfx.play();
+}
+
 function setPlayers(event) {
+  playSoundFX("start_2.wav")
   if (event.target.textContent === "NEW GAME") {
     location.reload();
   } else {
@@ -85,20 +80,78 @@ function makeMove(event) {
     let row = event.path[0].attributes[1].value;
     updateGameState(column, gameState.players[currentPlayer]);
     updateVisualBoard(column);
+    playSoundFX("drop_1.wav")
   } else {
     alert("CREATE NEW GAME!");
   }
 }
 
-// function setColor(obj, color) {
-//   obj.className = color;
-// }
+async function setColor(obj, color) {
+  if (obj === undefined || obj === null) {
+    console.log("setColor:", obj);
+  } else {
+    obj[0].className = color
+  }
+}
 
-// function eraseColor(obj) {
-//   obj.className = "";
-// }
+function eraseColor(obj) {
+  if (obj === undefined || obj === null) {
+    console.log("eraeseColor:", obj);
+    //obj.className = "empty"
+  } else {
+    obj[0].className = "empty"
+  }
+}
 
-function updateVisualBoard(column){
+
+const delayLoop = (column) => {
+  let columnGS = gameState.board[column];
+  let row = 5;
+  if (columnGS != null) {
+  for (x=0;x<=columnGS.length;x++) {
+    let currentTD = document.querySelectorAll('[column="' + column + '"][row="' + row + '"]');
+    console.log(currentTD)
+    //console.log(currentTD[row])
+    setColor(currentTD, gameState.players[currentPlayer])
+    // if (row > columnGS.length) {
+    //   //setTimeout(() => {eraseColor(currentTD[x])}, i * delay);
+    //   row--;
+    // }
+    
+  }
+}
+}
+
+async function dropCoin(columnGS) {
+//   //countDown = 5;
+//   let count = 0;
+//   //console.log(columnGS.length)
+//   columnGS.forEach(
+//     setColor(curTD, gameState.players[currentPlayer])
+//     setTimeout(() => {
+
+//     }, 150)
+//   )
+//   columnGS.map((curTD) => {
+
+      
+      
+//       let myPromise = new Promise(function(resolve) {
+//           setTimeout(resolve, 150).then(eraseColor(curTD))
+//       });
+//     }
+
+//     //countDown--;
+// }
+}
+
+async function updateVisualBoard(column){
+  //let columnGS = gameState.board[column]; //.length === number of peices in column
+  delayLoop(column)
+  //await dropCoin(columnGS);
+}
+
+function updateVisualBoard2(column){
   let columnGS = gameState.board[column];
   let r = 5;
   for (i = 0; i < columnGS.length; i++) {
@@ -114,6 +167,27 @@ function updateVisualBoard(column){
     r--;
   }
 }
+
+
+
+  // let columnGS = gameState.board[column];
+  // console.log(columnGS.length)
+  // let r = 5;
+  // for (i = 0; i < columnGS.length; i++) {
+  //   let currentTD = document.querySelectorAll('[column="' + column + '"][row="' + r + '"]');
+  //   //console.dir(currentTD)
+  //   for (x = 0; x < r; x++) {
+  //     let tempTD = document.querySelectorAll('[column="' + column + '"][row="' + x + '"]');
+  //     dropCoin(x, i, tempTD[0].className)
+  //     tempTD[0].className = columnGS[i];
+  //     await dropCoin(x, i);
+  //     r--;
+  //   }
+    
+  //   currentTD[0].className = columnGS[i];
+  // }
+  
+
 
 let p1Lite = document.getElementById("p1turn");
 let p2Lite = document.getElementById("p2turn");

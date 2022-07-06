@@ -1,0 +1,100 @@
+* {
+    box-sizing: border-box;
+  }
+
+html {
+    background-color: black;
+}
+
+#timer {
+    font-size: 24px;
+    color: red;
+}
+
+button {
+    width: 235px;
+    height: 30px;
+}
+
+td {
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    border-radius: 100%;
+}
+
+#p1turn, #p2turn {
+    width: 25px;
+    height: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    background: green;
+}
+
+#win {
+    color: green;
+    font-size: 72px;
+}
+
+.winner {
+    display: flex;
+    color: green;
+    justify-content: center;
+}
+
+.timerDiv {
+    display: flex;
+    justify-content: center;
+}
+
+#player1 {
+    color: red;
+}
+
+#player2 {
+    color: yellow;
+}
+
+#players {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#game {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#p1 {
+    color: red;
+    font-size: 24px;
+    
+}
+
+#p2 {
+    color: yellow;
+    font-size: 24px;
+}
+
+table {
+    border: 2px solid white;
+}
+
+.red {
+    background-color: red;
+}
+
+.yellow {
+    background-color: yellow;
+}
