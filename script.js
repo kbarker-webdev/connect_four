@@ -16,6 +16,9 @@ const btnSetPlayers = document.getElementsByTagName('button')[0];
 const txtPlayer1 = document.getElementById("txtPlayer1");
 const txtPlayer2 = document.getElementById("txtPlayer2");
 const divGame = document.getElementsByTagName("div")[3];
+const divRadioButtons = document.getElementById("radios_section");
+const radioButton1 = document.getElementById("one_player");
+const radioButton2 = document.getElementById("two_player");
 divGame.setAttribute('style', 'display: none');
 btnSetPlayers.addEventListener('click', setPlayers);
 let player1 = "";
@@ -23,6 +26,23 @@ let player2 = "";
 let isReady = false;
 let currentPlayer = 0;
 let gameWinner = "";
+let isOnePlayer = true;
+
+divRadioButtons.addEventListener('click', displayNumberOfPlayers);
+
+function displayNumberOfPlayers(event){
+  switch(event.target.value){
+    case "1":
+      txtPlayer2.value = "Computer"
+      txtPlayer2.setAttribute('disabled', '');
+      break;
+    case "2":
+      txtPlayer2.disabled = false;
+      txtPlayer2.value = "";
+      isOnePlayer = false;
+      break;
+  }
+}
 
 function playSoundFX(sound) {
   let sfx = new Audio("./sfx/" + sound);
@@ -36,10 +56,11 @@ function setPlayers(event) {
     let p1 = document.getElementById('p1');
     let p2 = document.getElementById('p2');
     if (txtPlayer1.value === "" || txtPlayer2.value === "") {
-       alert("Please enter names for Player1 & Player2.");
+       alert("Please enter names for Player 1 & Player 2.");
     } else {
       event.target.textContent = "NEW GAME";
       divSetPlayers.setAttribute("style", "display: none");
+      divRadioButtons.setAttribute("style", "display: none");
       player1 = txtPlayer1.value;
       player2 = txtPlayer2.value;
       p1.innerText = player1
@@ -48,13 +69,15 @@ function setPlayers(event) {
       setRandomPlayer();
       isReady = true;
       divGame.setAttribute('style', 'display: flex');
+      if (currentPlayer === 1) {
+        setTimeout(computerMakeMove, 1000);
+      }
     }
   }
 }
 
 function setRandomPlayer() {
   currentPlayer = Math.floor(Math.random() * 2);
-  console.log(currentPlayer);
   switch(currentPlayer){
     case 0:
       p1Lite.style.visibility = "visible";
@@ -66,6 +89,8 @@ function setRandomPlayer() {
       break;
   }
 }
+
+let tdArray = [];
 
 function drawBoard() {
   let colNum = 0;
@@ -79,25 +104,40 @@ function drawBoard() {
       td.setAttribute("row", rowNum);
       colNum++;
       row.appendChild(td);
+      tdArray.push(td);
     }
     rowNum++;
     table.appendChild(row);
   }
 }
 
-table.addEventListener('click', makeMove)
+table.addEventListener('click', makeMove);
 
 function makeMove(event) {
   if (isReady) {
-    let column = event.path[0].attributes[0].value;
-    updateGameState(column, gameState.players[currentPlayer]);
-    updateVisualBoard(column);
-    playSoundFX("drop_1.wav")
+    if (currentPlayer === 0){
+      let column = event.path[0].attributes[0].value;
+      updateGameState(column, gameState.players[currentPlayer]);
+      updateVisualBoard(column);
+      playSoundFX("drop_1.wav")
+      setTimeout(computerMakeMove, 1000);
+    }
   } else {
     alert("CREATE NEW GAME!");
   }
 }
 
+function computerMakeMove(){
+  if (isReady) {
+    let column = Math.floor(Math.random() * 7);
+  while (!(board[column].length < 6)){
+    column = Math.floor(Math.random() * 7);
+  }
+  updateGameState(column, gameState.players[currentPlayer]);
+  updateVisualBoard(column);
+  playSoundFX("drop_1.wav");
+  }
+}
 
 
 function updateVisualBoard(column){
