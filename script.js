@@ -69,7 +69,7 @@ function setPlayers(event) {
       setRandomPlayer();
       isReady = true;
       divGame.setAttribute('style', 'display: flex');
-      if (currentPlayer === 1) {
+      if (currentPlayer === 1 && isOnePlayer) {
         setTimeout(computerMakeMove, 1000);
       }
     }
@@ -120,7 +120,15 @@ function makeMove(event) {
       updateGameState(column, gameState.players[currentPlayer]);
       updateVisualBoard(column);
       playSoundFX("drop_1.wav")
-      setTimeout(computerMakeMove, 1000);
+      if (isOnePlayer) {
+        console.log(isOnePlayer)
+        setTimeout(computerMakeMove, 1000);
+      }
+    } else {
+      let column = event.path[0].attributes[0].value;
+      updateGameState(column, gameState.players[currentPlayer]);
+      updateVisualBoard(column);
+      playSoundFX("drop_1.wav")
     }
   } else {
     alert("CREATE NEW GAME!");
